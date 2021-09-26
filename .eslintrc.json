@@ -22,6 +22,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "camelcase": "off",
     "import/no-cycle": "off",
     "import/no-self-import": "off",
     "import/order": "off",
