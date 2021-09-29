@@ -101,7 +101,7 @@ const Home = ({ latestEpisodes, allEpisodes }: Homeprops) => {
                   />
                 </td>
                 <td>
-                  <Link href={`/episodes/${episode.id}`} prefetch>
+                  <Link href={`/episodes/${episode.id}`}>
                     <a>{episode.title}</a>
                   </Link>
                 </td>
