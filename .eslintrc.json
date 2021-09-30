@@ -22,6 +22,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "jsx-a11y/media-has-caption": "off",
     "react/no-danger": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "camelcase": "off",
