@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import api from '../services/api'
@@ -48,6 +49,10 @@ const Home = ({ latestEpisodes, allEpisodes }: Homeprops) => {
 
   return (
     <div className={styles.homepage}>
+      <Head>
+        <title>Home | Podcastr</title>
+      </Head>
+
       <section className={styles.latestEpisodes}>
         <h1>Últimos lançamentos</h1>
 

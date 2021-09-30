@@ -1,6 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { parseISO, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import styles from './episode.module.scss'
@@ -26,16 +28,24 @@ interface EpisodeProps {
 
 const Episode = ({ episode }: EpisodeProps) => {
   const { play } = usePlayer()
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return <p>Carregando...</p>
+  }
 
   return (
     <div className={styles.episode}>
+      <Head>
+        <title>{episode.title} | Podcastr</title>
+      </Head>
+
       <div className={styles.thumbnailContainer}>
         <Link href="/">
           <button type="button">
             <img src="/arrow-left.svg" alt="Voltar" />
           </button>
         </Link>
-
         <Image
           width={700}
           height={160}
@@ -56,7 +66,9 @@ const Episode = ({ episode }: EpisodeProps) => {
 
       <div
         className={styles.description}
-        dangerouslySetInnerHTML={{ __html: episode.description }}
+        dangerouslySetInnerHTML={{
+          __html: episode.description,
+        }}
       />
     </div>
   )
@@ -65,19 +77,17 @@ const Episode = ({ episode }: EpisodeProps) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await api.get('episodes', {
     params: {
-      _limit: 2,
-      _sort: 'published_at',
-      _order: 'desc',
+      __limit: 2,
+      __sort: 'published_at',
+      __order: 'desc',
     },
   })
 
-  const paths = data.map(episode => {
-    return {
-      params: {
-        slud: episode.id,
-      },
-    }
-  })
+  const paths = data.map(episode => ({
+    params: {
+      slug: episode.id,
+    },
+  }))
 
   return {
     paths,
@@ -93,10 +103,10 @@ export const getStaticProps: GetStaticProps = async ctx => {
     id: data.id,
     title: data.title,
     thumbnail: data.thumbnail,
+    members: data.members,
     publishedAt: format(parseISO(data.published_at), 'd MMM yy', {
       locale: ptBR,
     }),
-    members: data.members,
     duration: Number(data.file.duration),
     durationAsString: convertDurationToTimeString(Number(data.file.duration)),
     description: data.description,
