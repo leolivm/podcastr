@@ -2,6 +2,8 @@
   <img src=".github/podcastr-logo.svg" alt="Podcastr">
 </div>
 
+---
+
 ![Podcastr preview](.github/preview.png)
 
 ## 🚀 Tecnologies
