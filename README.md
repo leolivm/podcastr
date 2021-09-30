@@ -2,8 +2,6 @@
   <img src=".github/podcastr-logo.svg" alt="Podcastr">
 </div>
 
-<h1 align="center">:headphones: Podcastr :headphones:</h1>
-
 ![Podcastr preview](.github/preview.png)
 
 ## 🚀 Tecnologies
