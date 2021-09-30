@@ -1,8 +1,8 @@
-import { useContext, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import Image from 'next/image'
-import PlayerContext from '../../contexts/PlayerContext'
+import { usePlayer } from '../../contexts/PlayerContext'
 import styles from './styles.module.scss'
 
 const Player = () => {
@@ -13,7 +13,11 @@ const Player = () => {
     isPlaying,
     togglePlay,
     setPayingState,
-  } = useContext(PlayerContext)
+    playNext,
+    playPrevious,
+    hasNext,
+    hasPrevious,
+  } = usePlayer()
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -85,14 +89,18 @@ const Player = () => {
             <img src="/shuffle.svg" alt="Embaralhar" />
           </button>
 
-          <button type="button" disabled={!episode}>
+          <button
+            type="button"
+            disabled={!episode || !hasPrevious}
+            onClick={playPrevious}
+          >
             <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
 
           <button
             type="button"
             className={styles.playButton}
-            disabled={!episode}
+            disabled={!episode || !hasNext}
             onClick={togglePlay}
           >
             {isPlaying ? (
@@ -102,7 +110,7 @@ const Player = () => {
             )}
           </button>
 
-          <button type="button" disabled={!episode}>
+          <button type="button" disabled={!episode} onClick={playNext}>
             <img src="/play-next.svg" alt="Tocar próxima" />
           </button>
 
